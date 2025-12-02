@@ -46,3 +46,9 @@ Publicación en GitHub Pages:
 - Opción 2: Publica la carpeta `site/` en la rama `gh-pages` con herramientas como `gh-pages` o un workflow de GitHub Actions.
 
 Licencia: MIT
+
+Autor y contexto del proyecto:
+- Autor: Julián Suárez
+- Proyecto: proyecto-copilot
+- Asignatura: Estructura de Datos
+- Universidad: INCCA
