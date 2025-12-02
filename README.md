@@ -45,6 +45,10 @@ Publicación en GitHub Pages:
 - Opción 1 (rápida): Mueve el contenido de `site/` a `docs/` en la rama `main` y en los ajustes del repositorio (Settings → Pages) selecciona `main`/`docs` como fuente.
 - Opción 2: Publica la carpeta `site/` en la rama `gh-pages` con herramientas como `gh-pages` o un workflow de GitHub Actions.
 
+Sitio publicado (GitHub Pages):
+
+- https://jjasuareznn.github.io/Proyecto-copilot/
+
 Licencia: MIT
 
 Autor y contexto del proyecto:
