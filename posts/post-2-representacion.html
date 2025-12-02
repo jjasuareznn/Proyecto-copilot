@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Representación de Grafos - Proyecto-Copilot</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="../index.html" class="logo">📊 Proyecto-Copilot</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="../index.html#posts">Artículos</a></li>
+                <li><a href="../index.html#about">Acerca de</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <article class="post-detail">
+            <a href="../index.html#posts" class="back-link">Volver a artículos</a>
+
+            <h1>Representación de Grafos</h1>
+            <div class="post-meta">
+                <strong>Publicado:</strong> 1 de Diciembre, 2025 | 
+                <strong>Categoría:</strong> Estructuras de Datos
+            </div>
+
+            <!-- Introducción -->
+            <section>
+                <h2>¿Por Qué Importa la Representación?</h2>
+                <p>
+                    Una vez que entendemos qué es un grafo, surge una pregunta práctica: 
+                    <strong>¿Cómo almacenamos un grafo en la memoria de una computadora?</strong>
+                </p>
+                <p>
+                    La respuesta es que existen múltiples formas de representar un grafo, cada una con sus propias 
+                    ventajas y desventajas. La elección de la representación correcta depende del tipo de operaciones 
+                    que necesitamos realizar con frecuencia y de nuestros objetivos de rendimiento.
+                </p>
+                <p>
+                    En este artículo, exploraremos las dos representaciones más comunes:
+                </p>
+                <ol>
+                    <li><strong>Lista de Adyacencia</strong> - Eficiente en espacio para grafos dispersos</li>
+                    <li><strong>Matriz de Adyacencia</strong> - Eficiente en tiempo para consultas de aristas</li>
+                </ol>
+            </section>
+
+            <!-- Lista de Adyacencia -->
+            <section>
+                <h2>1. Lista de Adyacencia</h2>
+                <p>
+                    Una <strong>lista de adyacencia</strong> es una forma de representar un grafo almacenando, 
+                    para cada vértice, una lista de todos los vértices adyacentes (conectados) a él.
+                </p>
+
+                <h3>Estructura Conceptual</h3>
+                <p>
+                    La estructura básica es un array o diccionario donde:
+                </p>
+                <ul>
+                    <li>Cada entrada corresponde a un vértice</li>
+                    <li>El valor de cada entrada es una lista de vértices adyacentes</li>
+                </ul>
+
+                <h3>Ejemplo Visual</h3>
+                <p>Consideremos el siguiente grafo no dirigido:</p>
+                <div class="diagram">
+                    <svg width="350" height="200" viewBox="0 0 350 200">
+                        <!-- Nodos -->
+                        <circle cx="50" cy="100" r="20" fill="#2563eb" stroke="#1e40af" stroke-width="2"/>
+                        <circle cx="150" cy="50" r="20" fill="#2563eb" stroke="#1e40af" stroke-width="2"/>
+                        <circle cx="150" cy="150" r="20" fill="#2563eb" stroke="#1e40af" stroke-width="2"/>
+                        <circle cx="250" cy="100" r="20" fill="#2563eb" stroke="#1e40af" stroke-width="2"/>
+                        
+                        <!-- Etiquetas de nodos -->
+                        <text x="50" y="108" text-anchor="middle" font-weight="bold" fill="white" font-size="14">A</text>
+                        <text x="150" y="58" text-anchor="middle" font-weight="bold" fill="white" font-size="14">B</text>
+                        <text x="150" y="158" text-anchor="middle" font-weight="bold" fill="white" font-size="14">C</text>
+                        <text x="250" y="108" text-anchor="middle" font-weight="bold" fill="white" font-size="14">D</text>
+                        
+                        <!-- Aristas -->
+                        <line x1="70" y1="85" x2="130" y2="60" stroke="#7c3aed" stroke-width="2"/>
+                        <line x1="70" y1="115" x2="130" y2="140" stroke="#7c3aed" stroke-width="2"/>
+                        <line x1="150" y1="70" x2="150" y2="130" stroke="#7c3aed" stroke-width="2"/>
+                        <line x1="170" y1="50" x2="230" y2="90" stroke="#7c3aed" stroke-width="2"/>
+                        <line x1="170" y1="150" x2="230" y2="110" stroke="#7c3aed" stroke-width="2"/>
+                    </svg>
+                    <p class="diagram-label">Grafo de ejemplo con 4 vértices</p>
+                </div>
+
+                <p>La lista de adyacencia para este grafo sería:</p>
+                <div class="code-block">
+A → [B, C]
+B → [A, D]
+C → [A, B, D]
+D → [B, C]
+                </div>
+
+                <h3>Ejemplo en Código (Python)</h3>
+                <div class="code-block">
+# Representación con diccionario
+grafo = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D'],
+    'C': ['A', 'B', 'D'],
+    'D': ['B', 'C']
+}
+
+# Representación con lista de listas
+# (Cuando los vértices son números 0-n)
+grafo_numerico = [
+    [1, 2],      # Vértice 0 conectado a 1, 2
+    [0, 3],      # Vértice 1 conectado a 0, 3
+    [0, 1, 3],   # Vértice 2 conectado a 0, 1, 3
+    [1, 2]       # Vértice 3 conectado a 1, 2
+]
+                </div>
+
+                <h3>Ventajas de Lista de Adyacencia</h3>
+                <ul>
+                    <li><strong>Eficiencia de Espacio:</strong> O(V + E) - Ideal para grafos dispersos</li>
+                    <li><strong>Iteración de Adyacencias:</strong> Rápido iterar sobre vecinos de un nodo</li>
+                    <li><strong>Flexibilidad:</strong> Fácil de usar con grafos dinámicos (agregar/eliminar aristas)</li>
+                </ul>
+
+                <h3>Desventajas de Lista de Adyacencia</h3>
+                <ul>
+                    <li><strong>Búsqueda de Aristas:</strong> O(grado del vértice) para verificar si existe una arista</li>
+                    <li><strong>Acceso Directo:</strong> No hay acceso directo a la información de una arista específica</li>
+                </ul>
+            </section>
+
+            <!-- Matriz de Adyacencia -->
+            <section>
+                <h2>2. Matriz de Adyacencia</h2>
+                <p>
+                    Una <strong>matriz de adyacencia</strong> es una matriz cuadrada 2D donde cada entrada 
+                    <code>[i][j]</code> indica si existe una arista entre el vértice i y el vértice j.
+                </p>
+
+                <h3>Estructura Conceptual</h3>
+                <p>
+                    La estructura es una matriz de tamaño V × V donde:
+                </p>
+                <ul>
+                    <li>V es el número de vértices</li>
+                    <li><code>matriz[i][j] = 1</code> (o el peso) si existe una arista de i a j</li>
+                    <li><code>matriz[i][j] = 0</code> si NO existe una arista de i a j</li>
+                </ul>
+
+                <h3>Ejemplo Visual</h3>
+                <p>Para el mismo grafo anterior, la matriz de adyacencia sería:</p>
+                <div class="diagram">
+                    <table style="margin: 1rem auto; border-collapse: collapse; font-family: 'Courier New', monospace;">
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center; font-weight: bold; background: #f0f0f0;">  </td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center; font-weight: bold; background: #f0f0f0;">A</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center; font-weight: bold; background: #f0f0f0;">B</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center; font-weight: bold; background: #f0f0f0;">C</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center; font-weight: bold; background: #f0f0f0;">D</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center; font-weight: bold; background: #f0f0f0;">A</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">0</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">1</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">1</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">0</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center; font-weight: bold; background: #f0f0f0;">B</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">1</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">0</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">1</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">1</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center; font-weight: bold; background: #f0f0f0;">C</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">1</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">1</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">0</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">1</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center; font-weight: bold; background: #f0f0f0;">D</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">0</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">1</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">1</td>
+                            <td style="border: 1px solid #ccc; padding: 8px; text-align: center;">0</td>
+                        </tr>
+                    </table>
+                    <p class="diagram-label">Matriz de Adyacencia - un 1 indica una arista, 0 indica ausencia</p>
+                </div>
+
+                <h3>Ejemplo en Código (Python)</h3>
+                <div class="code-block">
+# Representación como matriz 2D
+import numpy as np
+
+# Para grafo no dirigido (matriz simétrica)
+matriz = np.array([
+    [0, 1, 1, 0],  # A
+    [1, 0, 1, 1],  # B
+    [1, 1, 0, 1],  # C
+    [0, 1, 1, 0]   # D
+])
+
+# O con lista de listas
+matriz = [
+    [0, 1, 1, 0],
+    [1, 0, 1, 1],
+    [1, 1, 0, 1],
+    [0, 1, 1, 0]
+]
+
+# Verificar si existe arista entre A (0) y B (1)
+print(matriz[0][1])  # Output: 1 (existe arista)
+print(matriz[0][3])  # Output: 0 (no existe arista)
+                </div>
+
+                <h3>Para Grafos Ponderados</h3>
+                <p>
+                    En un grafo ponderado, en lugar de 1 y 0, almacenamos el peso de la arista 
+                    (o infinito/∞ si no existe):
+                </p>
+                <div class="code-block">
+# Grafo ponderado
+#    A --5-- B
+#    |       |
+#    3       7
+#    |       |
+#    C --2-- D
+
+matriz_ponderada = [
+    [0, 5, 3, ∞],
+    [5, 0, ∞, 7],
+    [3, ∞, 0, 2],
+    [∞, 7, 2, 0]
+]
+                </div>
+
+                <h3>Ventajas de Matriz de Adyacencia</h3>
+                <ul>
+                    <li><strong>Consulta Rápida de Aristas:</strong> O(1) para verificar si existe una arista</li>
+                    <li><strong>Acceso Directo:</strong> Acceso directo a información de cualquier arista</li>
+                    <li><strong>Facilidad de Implementación:</strong> Simple de implementar y entender</li>
+                </ul>
+
+                <h3>Desventajas de Matriz de Adyacencia</h3>
+                <ul>
+                    <li><strong>Ineficiencia de Espacio:</strong> O(V²) - Problemático para grafos grandes y dispersos</li>
+                    <li><strong>Iteración Lenta:</strong> Más lento iterar sobre todos los vecinos</li>
+                    <li><strong>Espacio Desperdiciado:</strong> Muchas entradas pueden ser cero en grafos dispersos</li>
+                </ul>
+            </section>
+
+            <!-- Comparación -->
+            <section>
+                <h2>Comparación: Lista vs Matriz</h2>
+                <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                    <thead>
+                        <tr style="background: linear-gradient(135deg, #2563eb, #7c3aed); color: white;">
+                            <th style="border: 1px solid #ccc; padding: 12px; text-align: left;">Operación</th>
+                            <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">Lista de Adyacencia</th>
+                            <th style="border: 1px solid #ccc; padding: 12px; text-align: center;">Matriz de Adyacencia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 12px;"><strong>Espacio</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 12px; text-align: center;">O(V + E)</td>
+                            <td style="border: 1px solid #ccc; padding: 12px; text-align: center;">O(V²)</td>
+                        </tr>
+                        <tr style="background: #f9fafb;">
+                            <td style="border: 1px solid #ccc; padding: 12px;"><strong>¿Existe arista (u,v)?</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 12px; text-align: center;">O(grado de u)</td>
+                            <td style="border: 1px solid #ccc; padding: 12px; text-align: center;">O(1)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 12px;"><strong>Obtener todos los vecinos</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 12px; text-align: center;">O(grado de u)</td>
+                            <td style="border: 1px solid #ccc; padding: 12px; text-align: center;">O(V)</td>
+                        </tr>
+                        <tr style="background: #f9fafb;">
+                            <td style="border: 1px solid #ccc; padding: 12px;"><strong>Agregar arista</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 12px; text-align: center;">O(1)</td>
+                            <td style="border: 1px solid #ccc; padding: 12px; text-align: center;">O(1)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 12px;"><strong>Eliminar arista</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 12px; text-align: center;">O(grado de u)</td>
+                            <td style="border: 1px solid #ccc; padding: 12px; text-align: center;">O(1)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Cuándo usar cada una -->
+            <section>
+                <h2>¿Cuándo Usar Cada Representación?</h2>
+
+                <h3>Usa Lista de Adyacencia cuando:</h3>
+                <ul>
+                    <li>El grafo es <strong>disperso</strong> (pocos edges en relación a V²)</li>
+                    <li>Necesitas <strong>iterar sobre vecinos</strong> frecuentemente</li>
+                    <li>La memoria es limitada</li>
+                    <li>El grafo es dinámico (agregar/eliminar aristas frecuentemente)</li>
+                    <li>Usarás algoritmos como BFS o DFS</li>
+                </ul>
+
+                <h3>Usa Matriz de Adyacencia cuando:</h3>
+                <ul>
+                    <li>El grafo es <strong>denso</strong> (muchos edges)</li>
+                    <li>Necesitas <strong>verificar rápidamente</strong> si existe una arista específica</li>
+                    <li>Tienes suficiente memoria disponible</li>
+                    <li>El grafo es estático</li>
+                    <li>Usarás algoritmos que requieren acceso rápido a aristas (Floyd-Warshall)</li>
+                </ul>
+            </section>
+
+            <!-- Resumen -->
+            <section>
+                <h2>Resumen</h2>
+                <p>
+                    Hemos cubierto las dos representaciones principales de grafos:
+                </p>
+                <ol>
+                    <li><strong>Lista de Adyacencia:</strong> Eficiente para grafos dispersos, O(V+E) espacio</li>
+                    <li><strong>Matriz de Adyacencia:</strong> Eficiente para consultas rápidas, O(V²) espacio</li>
+                </ol>
+                <p>
+                    La elección correcta depende del contexto específico y de los requisitos de tu aplicación. 
+                    En el próximo artículo, veremos cómo recorrer estos grafos usando <strong>BFS</strong> y <strong>DFS</strong>.
+                </p>
+            </section>
+
+            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #e5e7eb;">
+                <a href="../index.html#posts" class="back-link">Volver a artículos</a>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p><strong>Proyecto-Copilot: Estructuras de Datos</strong></p>
+            <p>Autor: Julián Suárez | Universidad INCCA | 2025</p>
+            <p>Materia: Estructura de Datos | Tema: Grafos</p>
+            <p>Desarrollado con HTML5, CSS3 y JavaScript puro.</p>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+</body>
+</html>
