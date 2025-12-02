@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recorridos BFS y DFS</title>
+  <link rel="stylesheet" href="/site/styles/style.css" />
+</head>
+<body>
+  <header class="post-header">
+    <div class="container">
+      <a class="back" href="/site/index.html">← Volver al Blog</a>
+      <h1>Algoritmos Fundamentales: BFS y DFS</h1>
+      <p class="meta">Publicado: 2025-12-02 • Autor: Curso de Estructuras de Datos</p>
+    </div>
+  </header>
+  <main class="container post-body">
+    <section>
+      <h2>Búsqueda en Amplitud (BFS)</h2>
+      <p>BFS recorre el grafo por niveles (capas), partiendo desde un nodo raíz y explorando todos sus vecinos antes de avanzar a los vecinos de esos vecinos. Se implementa usando una cola (FIFO).</p>
+      <h3>Orden de recorrido (ejemplo desde A):</h3>
+      <p>Para el grafo que usamos en los posts anteriores, el orden BFS desde A sería: A → B → D → C → E</p>
+      <h3>Implementación en pseudocódigo (JavaScript):</h3>
+      <pre><code class="code">function bfs(adj, start) {
+  const visited = new Set();
+  const queue = [start];
+  visited.add(start);
+  const order = [];
+
+  while (queue.length > 0) {
+    const node = queue.shift();
+    order.push(node);
+    for (const neighbor of adj[node]) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        queue.push(neighbor);
+      }
+    }
+  }
+  return order;
+}
+
+// Complejidad: O(V + E) tiempo, O(V) espacio</code></pre>
+    </section>
+    <section>
+      <h2>Búsqueda en Profundidad (DFS)</h2>
+      <p>DFS explora tan lejos como sea posible desde un nodo antes de retroceder, y se puede implementar recursivamente o usando una pila.</p>
+      <h3>Orden de recorrido (ejemplo desde A):</h3>
+      <p>Un posible orden DFS desde A: A → B → C → E → D (el orden exacto depende del orden en que se visiten los vecinos).</p>
+      <h3>Implementación en pseudocódigo (recursiva - Python):</h3>
+      <pre><code class="code">def dfs(adj, start, visited=None, order=None):
+    if visited is None:
+        visited = set()
+    if order is None:
+        order = []
+
+    visited.add(start)
+    order.append(start)
+    for neighbor in adj[start]:
+        if neighbor not in visited:
+            dfs(adj, neighbor, visited, order)
+    return order
+
+# Complejidad: O(V + E) tiempo, O(V) espacio (pila de recursión)</code></pre>
+    </section>
+    <section>
+      <h2>Comparativa y usos</h2>
+      <ul>
+        <li><strong>BFS</strong>: ideal para encontrar la distancia mínima en un grafo no ponderado y para recorridos por capas.</li>
+        <li><strong>DFS</strong>: útil para detectar ciclos, orden topológico (con modificaciones), y problemas donde se explora en profundidad.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Ejemplo rápido: ejecución</h2>
+      <p>En ambos algoritmos la complejidad es O(V + E) en grafos representados por listas de adyacencia. Con matrices, las operaciones de consulta pueden cambiar la complejidad práctica dependiendo de la necesidad de consultar existencia de aristas.</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <a href="/site/index.html">← Volver al Blog</a>
+    </div>
+  </footer>
+  <script src="/site/script.js"></script>
+</body>
+</html>
